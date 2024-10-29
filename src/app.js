@@ -2,13 +2,9 @@ const express = require("express");
 const app = express();
 
 
-app.use("/hello",(req,resp)=>
+app.get("/hello",(req,resp)=>
 {
-        resp.send("Hello Hello hello");
-})
-app.use("/test",(req,resp)=>
-{
-        resp.send("Test from server");
+   resp.send("Hello From Server");
 })
 
 app.listen(3000,()=>
