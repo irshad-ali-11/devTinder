@@ -5,6 +5,10 @@ app.use((req,resp)=>
 {
         resp.send("Hello From Server");
 });
+app.use("/hello",(req,resp)=>
+{
+        resp.send("Hello Hello hello");
+})
 
 app.listen(3000,()=>
 {
