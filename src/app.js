@@ -1,13 +1,17 @@
 const express = require("express");
+const {connectDb} = require("./config/database.js");
 const app = express();
 
-
-app.get("/hello",(req,resp)=>
+connectDb().then(()=>
 {
-   resp.send("Hello From Server");
-})
-
+        console.log("database connect sucessfully ...");
+        
 app.listen(3000,()=>
+        {
+                console.log("Server Start...");
+        });
+}).catch(()=>
 {
-        console.log("Server Start...");
-})
+        console.log("database can not connect ...")
+});
+
