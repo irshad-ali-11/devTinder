@@ -21,7 +21,7 @@ app.post("/singup", async (req, res) => {
       emailId,
       password: passwordHash,
     });
-    const token = "hlweah;irjhw;oqihrjqawlieufoih";
+    
     await user.save();
     res.cookie("token", token).send({ message: "Added user successfully" });
   } catch (err) {
