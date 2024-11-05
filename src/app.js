@@ -23,7 +23,7 @@ app.post("/singup", async (req, res) => {
     });
     
     await user.save();
-    res.cookie("token", token).send({ message: "Added user successfully" });
+    res.send({ message: "Added user successfully" });
   } catch (err) {
     res.status(400).send({ ERROR: err.message });
   }
