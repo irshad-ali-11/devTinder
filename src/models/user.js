@@ -38,6 +38,16 @@ const userSchema = Schema({
       }
     },
   },
+  photoUrl :{
+    type:String,
+    validate(value)
+    {
+       if(!validator.isURL(value))
+       {
+         throw new Error("Invalid url..");
+       }
+    }
+  },
   age: {
     type: Number,
   },
