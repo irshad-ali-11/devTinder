@@ -76,10 +76,10 @@ const userSchema = Schema({
 }
 );
 
-userSchema.methods.getJWT = async function()
+userSchema.methods.getJWT = function()
 {
-     const token = jwt.sign({_id:this._id},"Irshad");
-     return token;
+    const token = jwt.sign({_id:this._id},"Irshad");
+    return token;
 }
 userSchema.methods.isValidatePassword = async function(userInputPassword)
 {
