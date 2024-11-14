@@ -22,7 +22,7 @@ authRouter.post("/singup", async (req, res) => {
     await user.save();
     res.json({ message: "added successfully" });
   } catch (err) {
-    res.status(400).send("Error : " + err);
+    res.status(400).json({Error : err});
   }
 });
 
@@ -42,15 +42,15 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid Password");
     }
     const token = await user.getJWT();
-    res.cookie("token",token).send("login");
+    res.cookie("token",token).json({message:"Login successfully!!!!"});
   } catch (err) {
-    res.status(400).send("Error : " + err.message);
+    res.status(400).json({Error : err.message});
   }
 });
 
 authRouter.post("/logout",(req,res)=>
 {
-        res.clearCookie("token",{path:"/"}).send("logout");
-})
+        res.clearCookie("token",{path:"/"}).json({message:"Logout successfully"});
+});
 
-module.exports = authRouter;
+module.exports = {authRouter};

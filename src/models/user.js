@@ -42,10 +42,10 @@ const userSchema = Schema({
     type:String,
     validate(value)
     {
-       if(!validator.isURL(value))
-       {
-         throw new Error("Invalid url..");
-       }
+      if(!validator.isURL(value))
+      {
+        throw new Error("Invalid url..");
+          }
     }
   },
   age: {
@@ -65,11 +65,10 @@ const userSchema = Schema({
   },
   gender: {
     type: String,
-    validate(value) {
-      if (!["male", "female", "another"].includes(value)) {
-        throw new Error("Gender data is not valid");
-      }
-    },
+     enum:{
+         values:["male","female","other"],
+         message:`{VALUE} gender type not valid`
+     }
   },
 },{
   timestamps:true,
