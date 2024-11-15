@@ -22,15 +22,14 @@ authRouter.post("/singup", async (req, res) => {
     await user.save();
     res.json({ message: "added successfully" });
   } catch (err) {
-    res.status(400).json({Error : err});
+    res.status(400).json({ Error: err.message });
   }
 });
 
 authRouter.post("/login", async (req, res) => {
   try {
     const { emailId, password } = req.body;
-    if (!validator.isEmail(emailId))
-    {
+    if (!validator.isEmail(emailId)) {
       throw new Error("Invalid email!!!!");
     }
     const user = await User.findOne({ emailId: emailId });
@@ -42,15 +41,16 @@ authRouter.post("/login", async (req, res) => {
       throw new Error("Invalid Password");
     }
     const token = await user.getJWT();
-    res.cookie("token",token).json({message:"Login successfully!!!!"});
+    res.cookie("token", token).json({ message: "Login successfully!!!!" });
   } catch (err) {
-    res.status(400).json({Error : err.message});
+    res.status(400).json({ Error: err.message });
   }
 });
 
-authRouter.post("/logout",(req,res)=>
-{
-        res.clearCookie("token",{path:"/"}).json({message:"Logout successfully"});
+authRouter.post("/logout", (req, res) => {
+  res
+    .clearCookie("token", { path: "/" })
+    .json({ message: "Logout successfully" });
 });
 
-module.exports = {authRouter};
+module.exports = { authRouter };
