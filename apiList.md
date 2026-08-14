@@ -1,5 +1,5 @@
 
-# Dev Tinder API LIST
+# DevTinder API LIST
 
 ## authRouter
 - POST/singup

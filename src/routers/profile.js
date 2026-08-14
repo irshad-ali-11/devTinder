@@ -14,7 +14,7 @@ profileRouter.get("/profile/view", userAuth, (req, res) => {
 
 profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
       try {
-             validateProfileEdit(req);
+            validateProfileEdit(req);
              const loginUser = req.user;
          Object.keys(req.body).forEach((key)=>loginUser[key] = req.body[key]);
              const newUser = await loginUser.save();
