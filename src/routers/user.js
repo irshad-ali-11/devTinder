@@ -3,7 +3,7 @@ const { userAuth } = require("../middlewares/userAuth");
 const userRouter = Router();
 const { ConnectionRequest } = require("../models/connectionRequestModel.js");
 const { User } = require("../models/user.js");
-const USER_SAFE_DATA = "firstName lastName age gender skills about";
+const USER_SAFE_DATA = "firstName lastName photoUrl age gender skills about";
 
 userRouter.get("/user/requests/received", userAuth, async (req, res) => {
    try {
@@ -43,10 +43,12 @@ userRouter.get("/user/connection", userAuth, async (req, res) => {
 
       const data = connections.map((row) => {
          if (row.fromUserId.toString() === loggedInUser._id.toString()) {
-            return row.toUserId;
+            return row.fromUserId;
          }
-         return row.fromUserId;
+         return row.toUserId;
       });
+      console.log("connection BE - ");
+      console.log(data);
 
       res.status(200).json({
          message: "fetch a connections successfully!!!",
@@ -58,7 +60,7 @@ userRouter.get("/user/connection", userAuth, async (req, res) => {
       });
    }
 });
-userRouter.get("/user/feed", userAuth, async (req, res) => {
+userRouter.get("/feed", userAuth, async (req, res) => {
    try {
       const loggedInUser = req?.user;
       let page = req?.query?.page;
@@ -103,7 +105,7 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
 
       res.status(200).json({
          message: "fetching Feed are successfully!!!!.",
-         DATA: feedUser,
+         data: feedUser,
       });
    } catch (error) {
       res.status(400).json({

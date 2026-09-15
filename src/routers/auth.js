@@ -8,7 +8,13 @@ const bcrypt = require("bcrypt");
 authRouter.post("/singup", async (req, res) => {
    try {
       validateSingup(req);
-      const { firstName, lastName, emailId, password } = req.body;
+      const {
+         firstName,
+         lastName,
+         emailId,
+         password,
+         photoUrl = "",
+      } = req.body;
       const allReadyExistsUser = await User.findOne({ emailId: emailId });
       if (allReadyExistsUser) {
          throw new Error("allready existes email address");
@@ -19,9 +25,13 @@ authRouter.post("/singup", async (req, res) => {
          lastName,
          emailId,
          password: passwordHash,
+         photoUrl,
       });
       await user.save();
-      res.json({ message: "added successfully" });
+      res.json({
+         message: "user added successfully",
+         data: user,
+      });
    } catch (err) {
       res.status(400).json({ Error: err.message });
    }
@@ -31,19 +41,26 @@ authRouter.post("/login", async (req, res) => {
    try {
       const { emailId, password } = req.body;
       if (!validator.isEmail(emailId)) {
-         throw new Error("Invalid email!!!!");
+         return res.status(404).json({
+            message: "Invalid emailId..",
+         });
       }
       const user = await User.findOne({ emailId: emailId });
       if (!user) {
-         throw new Error("Invalid creditials");
+         return res.status(404).json({
+            message: "user not found",
+         });
       }
       const isLogin = await user.isValidatePassword(password);
       if (!isLogin) {
-         throw new Error("Invalid Password");
+         return res.status(401).json({
+            message: "Invalid Password",
+         });
       }
       const token = await user.getJWT();
       res.cookie("token", token, { httpOnly: true, signed: true }).json({
          message: "Login successfully!!!!",
+         user,
       });
    } catch (err) {
       res.status(400).json({ Error: err.message });
@@ -51,8 +68,15 @@ authRouter.post("/login", async (req, res) => {
 });
 
 authRouter.post("/logout", (req, res) => {
-   res.clearCookie("token", { path: "/" }).json({
+   res.clearCookie("token", null, { path: "/" }).json({
       message: "Logout successfully",
+   });
+});
+
+authRouter.get("/healt",(req,res)=>
+{
+   res.status(200).json({
+      message:"Route is healty"
    });
 });
 

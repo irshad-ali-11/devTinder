@@ -6,6 +6,13 @@ const { authRouter } = require("./routers/auth.js");
 const { profileRouter } = require("./routers/profile.js");
 const { requestRouter } = require("./routers/request.js");
 const { userRouter } = require("./routers/user");
+const cors = require("cors");
+app.use(
+   cors({
+      origin: "http://localhost:5173/",
+      credentials: true,
+   }),
+);
 app.use(express.json());
 app.use(cookieParser("Irshad"));
 app.use("/api/v1/", authRouter);
@@ -21,41 +28,3 @@ connectDb()
    .catch(() => {
       console.log("database can not connect ...");
    });
-
-// const mongoose = require("mongoose");
-// const User = require("./user.js");
-// const connectionRequestSchema = new mongoose.Schema(
-//    {
-//       toUserId: {
-//          type: mongoose.Schema.Types.ObjectId,
-//          ref: "User",
-//          require: true,
-//       },
-//       fromUserId: {
-//          type: mongoose.Schema.Types.ObjectId,
-//          ref: "User",
-//          require: true,
-//       },
-//       status: {
-//          type: String,
-//          require: true,
-//          enum: {
-//             values: ["ignored", "interested", "accepted", "rejected"],
-//             message: `{VALUE} in incorrect status type `,
-//          },
-//       },
-//    },
-//    {
-//       timestamps: true,
-//    },
-// );
-
-// connectionRequestSchema.index({ toUserId: 1, fromUserId: 1 });
-// connectionRequestSchema.pre("save", function (next) {
-//    if (this.fromUserId.equals(this.toUserId)) {
-//       throw new Error("Can not send requiest Yourself");
-//    }
-//    next();
-// });
-
-// module.exports = mongoose.model("ConnectionRequest", connectionRequestSchema);
